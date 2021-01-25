@@ -22,6 +22,7 @@ import com.telly.service.UserService;
 @Controller
 public class UserController {
 
+<<<<<<< HEAD
 	@RequestMapping("/login")
 	public String showLogin() {
 		return "login";
@@ -32,6 +33,35 @@ public class UserController {
 		return "loggedout";
 	}
 	
+=======
+	@Autowired
+	UserService userService;
+	
+	@RequestMapping("/createaccount")
+	public String createAccount(Model model, Principal principal) {
+		
+		model.addAttribute("user", new User());
+		
+		return "createaccount";
+	}
+
+	@RequestMapping(value = "/createuser", method = RequestMethod.POST)
+	public String createUser(@Validated(FormValidationGroup.class) User user, BindingResult result) {
+		
+		if(result.hasErrors()) {
+			return "createaccount";
+		}
+		
+		user.setAuthority("ROLE_USER");
+		user.setEnabled(true);
+
+		userService.create(user);
+		
+		return "home";
+
+	}
+
+>>>>>>> gestion_des_utilisateurs
 }
 
 
